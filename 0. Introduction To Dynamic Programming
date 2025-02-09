@@ -1,0 +1,76 @@
+Backtracking
+
+Concept: 
+Backtracking is a general algorithm for finding solutions to problems by trying potential solutions incrementally. 
+It explores a search space by trying out different options, and if a path leads to a dead end, it "backtracks" (undoes the last choice) and tries a different path.  
+Think of it like exploring a maze by trying different turns and going back if you hit a wall.
+
+How it Works:
+Choose: Pick a candidate for the current part of the solution.
+Explore: Recursively call the backtracking function with the chosen candidate.
+Unchoose: If the recursive call returns failure (or reaches a dead end), undo the choice and try a different candidate.
+
+Use Cases:
+Finding all permutations of a string.
+Solving constraint satisfaction problems (e.g., Sudoku, N-Queens).
+Generating subsets of a set.
+Finding paths in a graph.
+Example (N-Queens):   The N-Queens problem asks how to place N chess queens on an N×N chessboard so that no two queens threaten each other.
+                      Backtracking is used to try placing queens in different columns of each row, checking for conflicts, and backtracking if a safe placement can't be found.
+
+Advantages:
+Can find all possible solutions.
+Relatively simple to implement for many problems.
+
+Disadvantages:
+Can be computationally expensive for large problem instances (it might explore many dead ends).
+Not always the most efficient approach.
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+
+Dynamic Programming (DP)
+
+Concept: 
+Dynamic Programming is an optimization technique for solving problems by breaking them down into smaller overlapping subproblems, 
+solving each subproblem only once, and storing their solutions to avoid redundant computations.  
+It's like memoization (caching) combined with recursion.
+
+How it Works:
+Identify Overlapping Subproblems: Recognize that the problem can be divided into smaller subproblems, and that these subproblems are solved repeatedly.
+Memoization (Top-Down): Store the results of subproblems as you compute them. When you encounter a subproblem again, simply retrieve its solution from the cache instead of recomputing it.
+Tabulation (Bottom-Up): Build a table (or array) to store the solutions to subproblems. Solve the subproblems in a systematic order, filling the table as you go.
+
+Use Cases:
+Finding the shortest path in a graph (e.g., Dijkstra's algorithm).
+Computing Fibonacci numbers efficiently.
+Solving knapsack problems.
+Sequence alignment (e.g., finding the longest common subsequence).
+Example (Fibonacci Numbers):  
+Calculating Fibonacci numbers recursively without DP leads to a lot of repeated calculations (e.g., fib(5) calls fib(4) and fib(3), but fib(4) also calls fib(3) and fib(2), etc.). 
+DP avoids this by storing the results of fib(0), fib(1), fib(2), etc., so they are only computed once.
+
+Advantages:
+Can significantly improve performance by avoiding redundant computations.
+Often leads to more efficient algorithms than backtracking or brute force.
+
+Disadvantages:
+Can be more complex to implement than backtracking.
+Requires careful identification of overlapping subproblems and appropriate storage of solutions.
+
+Key Differences and Relationship:
+
+Backtracking: 
+Explores a search space by trying different options and undoing choices (backtracking) when they lead to dead ends.  
+It's a general problem-solving technique.
+
+Dynamic Programming: 
+Optimizes solutions by breaking problems into overlapping subproblems, solving each subproblem only once, and storing the results.  
+It's an optimization technique.
+
+Relationship: 
+DP can sometimes be used in conjunction with backtracking to optimize the search process.  
+For example, in some graph traversal problems, you might use backtracking to explore paths, but use DP to store the shortest path found so far to a particular node, avoiding redundant exploration of longer paths.
+
+In Summary:
+Use backtracking when you need to explore all possible solutions or when the problem space is relatively small.
+Use dynamic programming when you can identify overlapping subproblems and want to optimize performance by avoiding redundant computations. DP is often the key to getting efficient solutions to complex problems.
