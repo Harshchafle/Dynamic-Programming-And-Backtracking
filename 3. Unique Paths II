@@ -1,0 +1,42 @@
+// LC : https://leetcode.com/problems/unique-paths-ii/
+
+// solution :
+
+class Solution {
+    public int uniquePathsWithObstacles(int[][] grid) {
+        int m = grid.length;
+        int n = grid[0].length;
+        if(grid[m-1][n-1] == 1 || grid[0][0] == 1) return 0;
+        // int dp[][] = new int[m][n];
+        // return helper(0, 0, m, n, grid, dp);
+        return tabulation(m,m,grid);
+    }
+
+    public int helper(int i, int j, Integer m, Integer n, int[][]grid, int dp[][]){
+        if(i >= m || j >= n || grid[i][j] == 1) return 0;
+        if(i == m-1 && j == n-1) return 1;
+        if(dp[i][j] > 0) return dp[i][j];
+        int right = helper(i, j+1, m, n, grid, dp);
+        int down = helper(i+1, j, m, n, grid, dp);
+        return dp[i][j] = right + down;
+    }
+
+    public int tabulation(int m, int n, int[][] grid){
+        int[][] dp = new int[m][n];
+        for(int k = 0; k < n; k++){
+            if(grid[0][k] == 1) break;
+            dp[0][k] = 1;
+        }
+        for(int k = 0; k < m; k++){
+            if(grid[k][0] == 1) break;
+            dp[k][0] = 1;
+        }
+        for(int i = 1; i < m; i++){
+            for(int j = 1; j < n; j++){
+                if(grid[i][j] == 1) continue;
+                dp[i][j] = dp[i-1][j] + dp[i][j-1];
+            }
+        }
+        return dp[m-1][n-1];
+    }
+}
