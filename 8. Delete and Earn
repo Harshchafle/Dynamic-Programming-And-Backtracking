@@ -1,0 +1,38 @@
+class Solution {
+    public int deleteAndEarn(int[] nums) {
+        int points[] = new int[10001];
+        int MX = 0;
+        for(int num : nums){
+            points[num] += num;
+            MX = Math.max(MX, num);
+        }
+        // int[] memo = new int[MX+1];
+        // Arrays.fill(memo, -1);
+        // return helper(0, points, MX, memo);
+        return tabulation(nums, MX, points);
+    }
+
+    public int helper(int i, int[] points, int MX, int[] memo){
+        if(i > MX){
+            return 0;
+        }
+        if(memo[i] != -1) return memo[i];
+        // we are handling (nums[i]-1) deletion by skip
+        // and (nums[i]+1) deletion by recursive calling helper with i+2
+        // points will be added according to nums[i]
+        int pick = points[i] + helper(i+2, points, MX, memo);
+        int skip = helper(i+1, points, MX, memo);
+    
+        return memo[i] = Math.max(pick, skip);
+    }
+
+    public int tabulation(int[] nums, int MX, int[] points){
+        int dp[] = new int[MX+1];
+        dp[0] = points[0];
+        dp[1] = points[1];
+        for(int i = 2;  i <= MX; i++){
+            dp[i] = Math.max(points[i]+dp[i-2], dp[i-1]);
+        }
+        return dp[MX];
+    }
+}
