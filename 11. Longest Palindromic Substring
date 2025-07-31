@@ -1,0 +1,49 @@
+class Solution {
+    public String longestPalindrome(String s) {
+        String rev = "";
+        int n = s.length();
+        // base case if string is fully palindrome
+        for(int i = n-1; i >= 0; i--){
+            rev += s.charAt(i);
+        }
+        if(s.equals(rev))return s;
+
+        // we will store dp[i][j] = 1 if string from i to j is palindrome
+        int dp[][] = new int[n][n];
+        // Diagonal Traversal
+        for(int k = 0; k < n; k++){
+            int i = 0,j = k;
+            while(j < n){
+                // string of length 1 always palindrome
+                if(i == j) {
+                    dp[i][i] = 1;
+                }  
+                // two same characters consecutively are palindrome
+                else if(j == i+1 && s.charAt(i) == s.charAt(j)) {
+                    dp[i][j] = 1;  
+                }
+                // String(i,j) is palindrome if string(i+1, j-1) is palindrome 
+                else if(s.charAt(i) == s.charAt(j) && dp[i+1][j-1] == 1) {
+                    dp[i][j] = 1;
+                }
+                i++;j++;
+            }
+        }
+        // find the i and j for longest substring where j-1 is largest in dp
+        int maxdiff = -1;
+        int maxi = -1;
+        int maxj = -1;
+        for(int k = 0; k < n; k++){
+            int i = 0,j = k;
+            while(j < n){
+                if(dp[i][j] == 1 && maxdiff < j-i){
+                    maxdiff = j-i;
+                    maxi = i;
+                    maxj = j;
+                }
+                i++;j++;
+            }
+        }
+        return s.substring(maxi, maxj+1);
+    }
+}
