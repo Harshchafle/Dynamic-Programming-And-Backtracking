@@ -1,0 +1,22 @@
+class Solution {
+    public int minDistance(String word1, String word2) {
+        int m = word1.length();
+        int n = word2.length();
+        int memo[][] = new int[m][n];
+        for(int i = 0; i < m; i++) Arrays.fill(memo[i], -1);
+        return helper(m-1, n-1, word1, word2, memo);
+    }
+
+    public int helper(int i, int j, String s, String w, int memo[][]){
+        if(i == -1) return j+1;
+        if(j == -1) return i+1;
+        if(memo[i][j] != -1) return memo[i][j];
+        if(s.charAt(i) == w.charAt(j)){
+            return helper(i-1, j-1, s, w, memo);
+        }
+        int ins = helper(i, j-1, s, w, memo);
+        int del = helper(i-1, j, s, w, memo);
+        int rep = helper(i-1, j-1, s, w, memo);
+        return memo[i][j] = 1 + Math.min(ins, Math.min(del, rep));
+    }
+}
