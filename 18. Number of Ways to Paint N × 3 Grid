@@ -1,0 +1,59 @@
+You have a grid of size n x 3 and you want to paint each cell of the grid with exactly one of the three colors: Red, Yellow, or Green while making sure that no two adjacent cells have the same color (i.e., no two cells that share vertical or horizontal sides have the same color).
+
+Given n the number of rows of the grid, return the number of ways you can paint this grid. As the answer may grow large, the answer must be computed modulo 109 + 7.
+
+ 
+
+Example 1:
+Input: n = 1
+Output: 12
+Explanation: There are 12 possible way to paint the grid as shown.
+Example 2:
+
+Input: n = 5000
+Output: 30228214
+ 
+
+Constraints:
+
+n == grid.length
+1 <= n <= 5000
+
+Solution : 
+
+class Solution {
+    int n;
+    int MOD = 1000000007;
+    
+    public int numOfWays(int n) {
+        this.n = n;
+        long memo[][][][] = new long[n][4][4][4];
+
+        for(int i = 0; i < n; i++)
+            for(int j = 0; j < 4; j++)
+                for(int k = 0; k < 4; k++)
+                    for(int l = 0; l < 4; l++)
+                        memo[i][j][k][l] = -1;
+        
+        return (int)helper(0,3,3,3, memo);        
+    }
+
+    public long helper(int i, int c1, int c2, int c3, long memo[][][][]){
+        if(i == n) return 1;
+
+        if(memo[i][c1][c2][c3] != -1) return memo[i][c1][c2][c3];
+        
+        long ways = 0;
+        
+        for(int a = 0; a < 3; a++){
+            for(int b = 0; b < 3; b++){
+                for(int c = 0; c < 3; c++){
+                    if(a == b || b == c) continue;
+                    if(a == c1 || b == c2 || c == c3) continue;
+                    ways = (ways + helper(i+1, a,b,c, memo)) % MOD;
+                }
+            }
+        }
+        return memo[i][c1][c2][c3] = ways;
+    }
+}
